@@ -16,14 +16,6 @@ public class EmailRoutes extends RouteBuilder{
 	public void configure() throws Exception {
 	
 		
-		// 
-		//emailRoute.protocol=imaps
-		//emailRoute.domain=imap.gmail.com
-		
-		
-		
-//		from("imaps://imap-mail.outlook.com?username=hemang_rami@hotmail.com&password=hspy@hotmail"
-//			    + "&delete=false&unseen=true&consumer.delay=1")
 		
 		
 		from("imaps://imap.gmail.com?username=17@gmail.com&password=soot@94270"
