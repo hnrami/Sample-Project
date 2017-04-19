@@ -17,8 +17,13 @@ public class EmailRoutes extends RouteBuilder{
 	
 		
 		
+		@Override
+	public void configure() throws Exception {
+	
 		
-		from("imaps://imap.gmail.com?username=17@gmail.com&password=soot@94270"
+		
+		
+		from("imaps://imap.gmail.com?username=spring@gmail.com&password=springboot@94270"
 			    + "&delete=false&unseen=true&consumer.delay=6000")
 		
 		
@@ -46,7 +51,6 @@ public class EmailRoutes extends RouteBuilder{
 				
 				System.out.println(Util.AddUsers(fromarry[1].substring(0, fromarry[1].length()-1), emailSubject, bodyContent));
 				System.out.println("end");
-
 				
 				
 			}
