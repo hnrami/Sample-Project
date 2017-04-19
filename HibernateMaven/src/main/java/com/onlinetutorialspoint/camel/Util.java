@@ -38,63 +38,39 @@ public class Util {
 		if(count >= 1){
 			System.out.println("if");
 			UserDAO userDAO = new UserDAO();
-			UserCount userCount= UserDAO.checkservice(from);
-			Users users = new Users();
-			users.setUserID(userCount.getUser().getUserID());
-			users.setUserName(from);
-			users.setUserEmilID(from);
-			users.setCretedDate(Util.CurrentDate());
-			users.setEmailsubject(subject);
-			
-			
-			UserDetails userDetails = new UserDetails();
-			
-			if(body.length() >999){
-				body = body.substring(0, 999);
+			UserCount userCount =  UserDAO.checkCount(from);
+			if(userCount!=null){
+				
+				Users users = new Users();
+				users.setUserID(userCount.getUser().getUserID());
+				users.setUserName(from);
+				users.setUserEmilID(from);
+				users.setCretedDate(Util.CurrentDate());
+				users.setEmailsubject(subject);
+				
+				UserDetails userDetails = new UserDetails();
+
+				if(body.length() >999){
+					body = body.substring(0, 999);
+				}
+				userDetails.setBody(body);
+				userDetails.setCretedDate(Util.CurrentDate());
+				userDetails.setUserEmilID(from);
+				userDetails.setUsers(users);
+				
+				userDetails = userDAO.addUserDetails(userDetails);
+				
+				userCount.setCount(count);
+				userDAO.updateUserCount(userCount);
 			}
-			userDetails.setBody(body);
-			userDetails.setCretedDate(Util.CurrentDate());
-			userDetails.setUserEmilID(from);
-			userDetails.setUsers(users);
+			else{
+				normalMethod(from,subject,body,count);
+			}
 			
-			userDetails = userDAO.addUserDetails(userDetails);
-			
-			userCount.setCount(count);
-			userDAO.updateUserCount(userCount);
 		}
 		else{
-		
-		
-			UserDAO userDAO = new UserDAO();
-			Users users = new Users();
-			users.setUserName(from);
-			users.setUserEmilID(from);
-			users.setCretedDate(Util.CurrentDate());
-			users.setEmailsubject(subject);
-			users = userDAO.addUsers(users);
-			
-			System.out.println(users.getUserEmilID());
-			
-			
-			UserDetails userDetails = new UserDetails();
-			
-			if(body.length() >999){
-				body = body.substring(0, 999);
-			}
-			userDetails.setBody(body);
-			userDetails.setCretedDate(users.getCretedDate());
-			userDetails.setUserEmilID(users.getUserEmilID());
-			userDetails.setUsers(users);
-			
-			userDetails = userDAO.addUserDetails(userDetails);
-				
-			UserCount userCount = new UserCount();
-			
-			userCount.setCount(count);
-			
-			userCount.setUser(users);
-			
-			userDAO.addUsercount(userCount);
+			normalMethod(from,subject,body,count);
+	
 
 		}
 		
@@ -102,5 +78,38 @@ public class Util {
 		
 	}
     
+	public static void normalMethod(String from,String subject,String body,int count){
+		
+		UserDAO userDAO = new UserDAO();
+		Users users = new Users();
+		users.setUserName(from);
+		users.setUserEmilID(from);
+		users.setCretedDate(Util.CurrentDate());
+		users.setEmailsubject(subject);
+		users = userDAO.addUsers(users);
+		
+		System.out.println(users.getUserEmilID());
+		
+		
+		UserDetails userDetails = new UserDetails();
+		
+		if(body.length() >999){
+			body = body.substring(0, 999);
+		}
+		userDetails.setBody(body);
+		userDetails.setCretedDate(users.getCretedDate());
+		userDetails.setUserEmilID(users.getUserEmilID());
+		userDetails.setUsers(users);
+		
+		userDetails = userDAO.addUserDetails(userDetails);
+			
+		UserCount userCount = new UserCount();
+		
+		userCount.setCount(count);
+		
+		userCount.setUser(users);
+		
+		userDAO.addUsercount(userCount);
+	}
 
 }
